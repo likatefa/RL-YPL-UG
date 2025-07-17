@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Highschool Elites - Study Hub for Form 4 to Form 6</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+<style>
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fefefe;
+    color: #222;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  a {
+    color: #004a99;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Navbar */
+  header {
+    background: #003366;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  nav.navbar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  ul.nav-links li {
+    position: relative;
+  }
+  ul.nav-links li a {
+    color: white;
+    font-weight: 600;
+  }
+  ul.nav-links li a:hover {
+    color: #ffd700;
+  }
+  ul.nav-links li button#darkToggle {
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  ul.nav-links li button#darkToggle:hover {
+    color: #ffd700;
+  }
+
+  /* Dropdown */
+  li.dropdown > a::after {
+    content: ' ▾';
+  }
+  ul.dropdown-menu {
+    position: absolute;
+    background: #003366;
+    padding: 10px 0;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    display: none;
+    flex-direction: column;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+  ul.dropdown-menu li a {
+    display: block;
+    padding: 8px 16px;
+    color: white;
+    font-weight: normal;
+  }
+  ul.dropdown-menu li a:hover {
+    background: #004a99;
+  }
+  li.dropdown:hover > ul.dropdown-menu {
+    display: flex;
+  }
+
+  /* Logo container with animated logo */
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Animated gradient background for icon */
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(270deg, #4b6cb7, #182848, #f9a825, #4b6cb7);
+    background-size: 800% 800%;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: gradientShift 8s ease infinite;
+    box-shadow: 0 0 12px #f9a825aa;
+    flex-shrink: 0;
+  }
+  .icon-wrapper:hover {
+    animation-play-state: paused;
+    box-shadow: 0 0 24px #f9a825ff, 0 0 48px #f9a825cc;
+    cursor: pointer;
+  }
+  .icon-wrapper svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
+    filter: drop-shadow(0 0 2px #f9a825);
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Logo text */
+  .logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    animation: textGlowPulse 3s ease-in-out infinite;
+  }
+  .logo-text .highlight {
+    background: linear-gradient(270deg, #f9a825, #fff, #f9a825);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textGradient 5s ease infinite;
+  }
+  @keyframes textGlowPulse {
+    0%, 100% {
+      text-shadow: 0 0 8px #f9a825aa, 0 0 15px #f9a82555;
+      transform: scale(1);
+    }
+    50% {
+      text-shadow: 0 0 18px #f9a825ff, 0 0 30px #f9a825cc;
+      transform: scale(1.05);
+    }
+  }
+  @keyframes textGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Main content */
+  main {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  section.welcome {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  section.welcome h2 {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+  }
+  section.welcome p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+
+  /* Search Section */
+  #search-section {
+    margin-bottom: 3rem;
+  }
+  #search-section h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  #searchInput {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline-offset: 2px;
+    transition: border-color 0.3s;
+  }
+  #searchInput:focus {
+    border-color: #004a99;
+  }
+  #topicList {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: max-height 0.4s ease;
+  }
+  #topicList li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  #topicList li:last-child {
+    border-bottom: none;
+  }
+  #topicList li:hover {
+    background-color: #f0f8ff;
+  }
+  #topicList li:active {
+    background-color: #cce4ff;
+  }
+
+  /* Subject Sections */
+  .subject-section {
+    margin-bottom: 3rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.05);
+  }
+  .subject-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #003366;
+  }
+  .subject-section ul {
+    list-style: disc inside;
+    padding-left: 1rem;
+    margin: 0 0 1rem 0;
+  }
+  .subject-section ul li {
+    margin-bottom: 0.5rem;
+  }
+  .class-section {
+    margin-bottom: 1.5rem;
+  }
+  .class-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #004a99;
+  }
+  .subject-section iframe {
+    width: 100%;
+    height: 280px;
+    border: none;
+    margin: 0.7rem 0 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  }
+
+  /* Footer */
+  footer#contact {
+    background: #003366;
+    color: white;
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+  footer#contact p {
+    margin: 0.3rem 0;
+  }
+  footer#contact a {
+    color: #ffd700;
+    font-weight: 600;
+  }
+  footer#contact a:hover {
+    text-decoration: underline;
+  }
+
+  /* Dark mode */
+  body.dark-mode {
+    background: #121212;
+    color: #eee;
+  }
+  body.dark-mode a {
+    color: #ffd700;
+  }
+  body.dark-mode header {
+    background: #222;
+  }
+  body.dark-mode #searchInput {
+    background: #222;
+    border-color: #555;
+    color: #eee;
+  }
+  body.dark-mode #topicList {
+    background: #222;
+    border-color: #555;
+  }
+  body.dark-mode #topicList li:hover {
+    background-color: #444;
+  }
+  body.dark-mode .subject-section {
+    background: #222;
+    box-shadow: none;
+  }
+  body.dark-mode footer#contact {
+    background: #222;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar" aria-label="Primary Navigation">
+    <div class="logo-container" aria-label="Highschool Elites logo">
+      <div class="icon-wrapper" title="Graduation Cap Icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M32 4L2 18l30 14 30-14-30-14zM4 20v10l28 12 28-12V20l-28 12-28-12zM32 38L4 26v14l28 14 28-14V26L32 38z" />
+        </svg>
+      </div>
+      <div class="logo-text">
+        HIGHSCHOOL <span class="highlight">ELITES</span>
+      </div>
+    </div>
+
+    <ul class="nav-links" role="menubar">
+      <li role="none"><a role="menuitem" href="#">Home</a></li>
+      <li class="dropdown" role="none">
+        <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false">Subjects ▾</a>
+        <ul class="dropdown-menu" role="menu" aria-label="Subjects submenu">
+          <li role="none"><a href="#physics" role="menuitem">Physics</a></li>
+          <li role="none"><a href="#math" role="menuitem">Math / Submath</a></li>
+          <li role="none"><a href="#biology" role="menuitem">Biology</a></li>
+          <li role="none"><a href="#chemistry" role="menuitem">Chemistry</a></li>
+          <li role="none"><a href="#art" role="menuitem">Art</a></li>
+          <li role="none"><a href="#ict" role="menuitem">ICT</a></li>
+        </ul>
+      </li>
+      <li role="none"><a role="menuitem" href="#search-section">Search</a></li>
+      <li role="none"><a role="menuitem" href="#contact">Help</a></li>
+      <li role="none"><button id="darkToggle" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">🌙</button></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="welcome" aria-label="Welcome Section">
+    <h2>Welcome to Highschool Elites</h2>
+    <p>
+      Your ultimate digital study hub crafted for smart learners from Form 4 to Form 6.  
+      Access well-organized notes, quizzes, past papers, and revision tools for Physics, Math, ICT, Biology, Chemistry, and Art — all designed to help you excel in your academic journey.
+    </p>
+  </section>
+
+  <section id="search-section" class="search-section" aria-label="Topic Search Section">
+    <h3>Search Topics</h3>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Type to search subjects or topics..."
+      aria-describedby="searchHelp"
+      autocomplete="off"
+    />
+    <div id="searchHelp" style="font-size:0.8rem; color:#666; margin-bottom:8px;">Search by keyword or subject</div>
+    <ul id="topicList" role="listbox" tabindex="0" aria-label="Search results list">
+      <!-- Topics will be injected by JS -->
+    </ul>
+  </section>
+
+  <!-- SUBJECT SECTIONS -->
+
+  <section id="physics" class="subject-section physics-section" tabindex="0" aria-label="Physics Section">
+    <h2>📘 Physics by Class</h2>
+
+    <div class="class-section">
+      <h3>Form 4 Physics</h3>
+      <p>Basics of forces, motion, and energy. Build a strong foundation to understand how the physical world works.</p>
+      <ul>
+        <li><a href="notes/physics_form4_intro.pdf" target="_blank" rel="noopener">Introduction to Physics (PDF)</a></li>
+        <li><a href="https://youtu.be/xyz123" target="_blank" rel="noopener">Measurement Explained (YouTube)</a></li>
+        <li><a href="https://forms.gle/physics_form4_quiz" target="_blank" rel="noopener">Take Form 4 Physics Quiz (Google Forms)</a></li>
+      </ul>
+    </div>
+
+    <div class="class-section">
+      <h3>Form 5 Physics</h3>
+      <p>Dive deeper into vectors, motion, and energy conservation principles with interactive lessons and quizzes.</p>
+      <ul>
+        <li><a href="notes/physics_form5_vectors.pdf" target="_blank" rel="noopener">Vectors Notes (PDF)</a></li>
+        <li><a href="https://youtu.be/abc456" target="_blank" rel="noopener">Linear Motion Video (YouTube)</a></li>
+        <li><a href="https://forms.gle/physics_form5_quiz" target="_blank" rel="noopener">Form 5 Physics Quiz (Google Forms)</a></li>
+      </ul>
+    </div>
+
+    <div class="class-section">
+      <h3>Form 6 Physics</h3>
+      <p>Explore advanced topics like simple harmonic motion, waves, and electricity with practical examples.</p>
+      <ul>
+        <li><a href="notes/physics_form6_shm.pdf" target="_blank" rel="noopener">Simple Harmonic Motion Notes (PDF)</a></li>
+        <li><a href="https://youtu.be/def789" target="_blank" rel="noopener">Waves Explained (YouTube)</a></li>
+        <li><a href="https://forms.gle/physics_form6_quiz" target="_blank" rel="noopener">Form 6 Physics Quiz (Google Forms)</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="math" class="subject-section" tabindex="0" aria-label="Math Section">
+    <h2>📐 Math / Submath</h2>
+    <p>Master algebra, geometry, trigonometry, and introductory calculus with clear notes and helpful quizzes.</p>
+    <ul>
+      <li><a href="notes/math_algebra.pdf" target="_blank" rel="noopener">Algebra Notes (PDF)</a></li>
+      <li><a href="https://youtu.be/math_geometry" target="_blank" rel="noopener">Geometry Video (YouTube)</a></li>
+      <li><a href="https://forms.gle/math_quiz" target="_blank" rel="noopener">Math Quiz (Google Forms)</a></li>
+    </ul>
+  </section>
+
+  <section id="biology" class="subject-section" tabindex="0" aria-label="Biology Section">
+    <h2>🧬 Biology</h2>
+    <p>Understand life sciences fundamentals, from photosynthesis to genetics, through notes, videos, and quizzes.</p>
+    <ul>
+      <li><a href="notes/biology_photosynthesis.pdf" target="_blank" rel="noopener">Photosynthesis Notes (PDF)</a></li>
+      <li><a href="https://youtu.be/biology_dna" target="_blank" rel="noopener">Genetics Explained (YouTube)</a></li>
+      <li><a href="https://forms.gle/biology_quiz" target="_blank" rel="noopener">Biology Quiz (Google Forms)</a></li>
+    </ul>
+  </section>
+
+  <section id="chemistry" class="subject-section" tabindex="0" aria-label="Chemistry Section">
+    <h2>⚗️ Chemistry</h2>
+    <p>Explore the periodic table, bonding, and organic chemistry with interactive resources.</p>
+    <ul>
+      <li><a href="notes/chemistry_periodic_table.pdf" target="_blank" rel="noopener">Periodic Table Notes (PDF)</a></li>
+      <li><a href="https://youtu.be/chemistry_bonding" target="_blank" rel="noopener">Chemical Bonding Video (YouTube)</a></li>
+      <li><a href="https://forms.gle/chemistry_quiz" target="_blank" rel="noopener">Chemistry Quiz (Google Forms)</a></li>
+    </ul>
+  </section>
+
+  <section id="art" class="subject-section" tabindex="0" aria-label="Art Section">
+    <h2>🎨 Art</h2>
+    <p>Discover art history, techniques, and modern art concepts with rich media and quizzes.</p>
+    <ul>
+      <li><a href="notes/art_renaissance.pdf" target="_blank" rel="noopener">Renaissance Art Notes (PDF)</a></li>
+      <li><a href="https://youtu.be/art_modern" target="_blank" rel="noopener">Modern Art Video (YouTube)</a></li>
+      <li><a href="https://forms.gle/art_quiz" target="_blank" rel="noopener">Art Quiz (Google Forms)</a></li>
+    </ul>
+  </section>
+
+  <section id="ict" class="subject-section" tabindex="0" aria-label="ICT Section">
+    <h2>💻 ICT</h2>
+    <p>Learn the basics of computing, programming, and databases with accessible tutorials and tests.</p>
+    <ul>
+      <li><a href="notes/ict_binary.pdf" target="_blank" rel="noopener">Binary Systems Notes (PDF)</a></li>
+      <li><a href="https://youtu.be/ict_programming" target="_blank" rel="noopener">Programming Basics Video (YouTube)</a></li>
+      <li><a href="https://forms.gle/ict_quiz" target="_blank" rel="noopener">ICT Quiz (Google Forms)</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer id="contact" aria-label="Contact Section">
+  <p>📧 Email: <a href="mailto:smartstudyhub@gmail.com">smartstudyhub@gmail.com</a></p>
+  <p>📞 Helpline: +256-123-456-789</p>
+  <p>📸 <a href="https://instagram.com/highschoolelites" target="_blank" rel="noopener">Instagram</a> | 💬 <a href="https://wa.me/256123456789" target="_blank" rel="noopener">WhatsApp</a></p>
+  <p>© 2025 Highschool Elites. All rights reserved.</p>
+</footer>
+
+<script>
+  // Dark mode toggle
+  document.getElementById('darkToggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+  });
+
+  // Topics data for search
+  const topics = [
+    { text: "Newton's Laws - Physics - Form 4" },
+    { text: "Measurement - Physics - Form 4" },
+    { text: "Motion - Physics - Form 4" },
+    { text: "Forces - Physics - Form 4" },
+    { text: "Vectors - Physics - Form 5" },
+    { text: "Linear Motion - Physics - Form 5" },
+    { text: "Work, Energy & Power - Physics - Form 5" },
+    { text: "Simple Harmonic Motion - Physics - Form 6" },
+    { text: "Waves - Physics - Form 6" },
+    { text: "Electricity - Physics - Form 6" },
+    { text: "Algebra - Math - Form 4" },
+    { text: "Geometry - Math - Form 4" },
+    { text: "Trigonometry - Math - Form 5" },
+    { text: "Calculus Basics - Math - Form 6" },
+    { text: "Photosynthesis - Biology - Form 4" },
+    { text: "Human Digestive System - Biology - Form 5" },
+    { text: "Genetics - Biology - Form 6" },
+    { text: "Periodic Table - Chemistry - Form 4" },
+    { text: "Chemical Bonding - Chemistry - Form 5" },
+    { text: "Organic Chemistry - Chemistry - Form 6" },
+    { text: "Renaissance Art - Art - Form 4" },
+    { text: "Modern Art - Art - Form 5" },
+    { text: "Binary Systems - ICT - Form 4" },
+    { text: "Programming Basics - ICT - Form 5" },
+    { text: "Database Management - ICT - Form 6" },
+  ];
+
+  // Function to build topic list
+  const topicList = document.getElementById('topicList');
+
+  function renderTopicList(filter = '') {
+    topicList.innerHTML = '';
+    const filtered = topics.filter(t => t.text.toLowerCase().includes(filter.toLowerCase()));
+    if (filtered.length === 0) {
+      topicList.innerHTML = '<li style="color:#999; padding:8px 16px;">No topics found.</li>';
+      return;
+    }
+    filtered.forEach(t => {
+      const li = document.createElement('li');
+      li.textContent = t.text;
+      li.tabIndex = 0;
+      li.setAttribute('role', 'option');
+      li.addEventListener('click', () => {
+        alert(`You clicked on "${t.text}". Use this to navigate or show content.`);
+      });
+      li.addEventListener('keypress', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          li.click();
+        }
+      });
+      topicList.appendChild(li);
+    });
+  }
+
+  renderTopicList();
+
+  // Search input handler
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    renderTopicList(e.target.value);
+  });
+</script>
+
+</body>
+</html>
